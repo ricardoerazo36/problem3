@@ -82,7 +82,7 @@ optimizer_D = optim.Adam(discriminator.parameters(), lr=lr)
 criterion = nn.BCELoss()
 
 # 7. Entrenamiento
-epochs = 10
+epochs = 50
 for epoch in range(epochs):
     for i, (imgs, labels) in enumerate(train_loader):
         batch_size = imgs.size(0)
