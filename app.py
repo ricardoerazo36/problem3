@@ -80,7 +80,8 @@ if model_loaded:
                 
                 with torch.no_grad():
                     gen_img = model(z, labels).cpu().numpy()[0, 0]
-                
+                    gen_img = (gen_img + 1) / 2
+
                 # Mostrar imagen
                 if rows == 1:
                     ax = axes[col] if cols > 1 else axes[0]
