@@ -71,6 +71,8 @@ if model_loaded:
                 axes = np.array([axes])
             elif cols == 1:
                 axes = np.array([[ax] for ax in axes])
+            else:
+                axes = np.array(axes).reshape(rows, cols)
             
             for i in range(num_images):
                 row = i // cols
