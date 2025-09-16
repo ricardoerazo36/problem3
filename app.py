@@ -64,11 +64,13 @@ if model_loaded:
             rows = (num_images + cols - 1) // cols
             fig, axes = plt.subplots(rows, cols, figsize=(cols * 2.5, rows * 2.5))
             
-            # Si solo hay una fila, asegurar que axes sea iterable
+            # Asegurar que axes sea siempre 2D para indexar fácilmente
             if rows == 1 and cols == 1:
-                axes = [axes]
+                axes = np.array([[axes]])
             elif rows == 1:
-                axes = axes.reshape(1, -1)
+                axes = np.array([axes])
+            elif cols == 1:
+                axes = np.array([[ax] for ax in axes])
             
             for i in range(num_images):
                 row = i // cols
@@ -83,11 +85,7 @@ if model_loaded:
                     gen_img = (gen_img + 1) / 2
 
                 # Mostrar imagen
-                if rows == 1:
-                    ax = axes[col] if cols > 1 else axes[0]
-                else:
-                    ax = axes[row, col]
-                    
+                ax = axes[row, col]
                 ax.imshow(gen_img, cmap="gray")
                 ax.set_title(f"Dígito {digit} - #{i+1}")
                 ax.axis("off")
