@@ -1,17 +1,25 @@
-import streamlit as st
-import numpy as np
+import torch
+import torch.nn as nn
 import matplotlib.pyplot as plt
+import streamlit as st
 
-st.title("Generador de Dígitos Manuscritos (MNIST)")
-st.write("Selecciona un dígito (0–9) y genera imágenes (placeholder con ruido).")
+# Definir la misma clase Generator que usaste en train.py
+class Generator(nn.Module):
+    def __init__(self, latent_dim=100):
+        super().__init__()
+        self.fc = nn.Sequential(
+            nn.Linear(latent_dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, 28*28),
+            nn.Tanh()
+        )
 
-digit = st.number_input("Elige un dígito:", min_value=0, max_value=9, step=1)
+    def forward(self, z):
+        out = self.fc(z)
+        return out.view(-1, 1, 28, 28)
 
-if st.button("Generar"):
-    fig, axes = plt.subplots(1, 5, figsize=(12, 3))
-    for i in range(5):
-        # Solo ruido aleatorio para probar
-        img = np.random.rand(28, 28)
-        axes[i].imshow(img, cmap="gray")
-        axes[i].axis("off")
-    st.pyplot(fig)
+# Cargar modelo entrenado
+latent_dim = 100
+model = Generator(latent_dim)
+model.load_state_dict(torch.load("mnist_generator.pth", map_location="cpu"))
+model.eval()
