@@ -167,7 +167,7 @@ os.makedirs('samples', exist_ok=True)
 
 # 7. Bucle de entrenamiento optimizado
 if __name__ == '__main__':
-    epochs = 10  
+    epochs = 20  
     print(f"Iniciando entrenamiento por {epochs} épocas...")
 
     G_losses = []
